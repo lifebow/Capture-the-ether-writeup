@@ -1,14 +1,16 @@
 # Capture the ether writeup
+Capture the ether là một game tương tự Capture the Flag với target cụ thể hơn là các lỗi bảo mật trong các hợp đồng thông minh Ethereum.
+Đây là writeup một số challenge của capture the ether trên [Website](https://capturetheether.com/)
 
 ## Lottery
-### Guess the number
+### Guess the number [Link](https://capturetheether.com/challenges/lotteries/guess-the-number/)
 Đây là bài đầu trong category này nên tương đối đơn giản. Chủ yếu là để người chơi làm quen với cú pháp solidity và các thư viện tương tác.
 
 Challenge này sẽ complete nếu người chơi lấy hết được balance của thử thách thông qua function guess().
 
 Người chơi chỉ cần gọi function guess() với n=42 tương ứng với initial answer và kèm theo value của yêu cầu là 1 ether. Qua các bước kiểm tra, contract sẽ gửi 2 ether về cho người chơi. Người chơi có thể lặp đi lặp lại các bước này cho tới khi balance của contract bằng 0 và hoàn thành thử thách.
 
-### Guess the secret number
+### Guess the secret number [Link](https://capturetheether.com/challenges/lotteries/guess-the-secret-number/)
 Thử thách thứ hai cũng tương tự challenge đầu, nhưng bây giờ answer không được lưu trực tiếp nữa. Và câu lệnh kiểm tra sẽ kiểm tra hash của input và cụ thể là keccak256. 
 
 Bình thường để dò ngược giá trị gốc trước khi hash là một sự vô ích vì ta không biết được chiều dài và kích thước cụ thể của input và có nhiều input có cùng một kết quả hash. Tuy nhiên ở challenge này, input vào là uinit8 có miền giá trị từ 0-255 nên ta có thể tính thử 
@@ -17,7 +19,7 @@ hash của các giá trị này và so với answerhash.
 Bài học kinh nghiệm:
 1. Chú ý đến miền giá trị của các kiểu dữ liệu
 
-### Guess the random number
+### Guess the random number [Link](https://capturetheether.com/challenges/lotteries/guess-the-random-number/)
 
 THử thách này cũng có bố cục giống hai thử thách ban đầu. Tuy nhiên lần này answer đã được tính bởi hash một giá trị động thông qua thời gian khởi tạo của Contract. Và đây là điều mà ta không thể tính toán được.
 
@@ -40,7 +42,7 @@ Kiến thức thu được:
 1. Tất đều là publish nếu lưu trữ trong blockchain, cho dù tầm vực là publish, private hay internal. Ta chỉ cần địa chỉ trong storage thì đều truy cập được hết.
 
 ## MATH
-### Token Sale
+### Token Sale [Link](https://capturetheether.com/challenges/math/token-sale/)
 Contract này hỗ trợ một số hàm mua bán token tuy nhiên ở hàm mua token có một lỗi overflow.
 
     uint256 constant PRICE_PER_TOKEN = 1 ether;
@@ -61,7 +63,7 @@ Bài học rút ra từ challenge này:
 1. Cẩn thận khi sử dụng các đơn vị chỉ số lượng coin, chúng được quy đổi về đơn vị nhỏ nhất wei khi lưu trữ và tính toán.
 1. Cộng, trừ, nhân chia đều cần kiểm tra lại vì có thể dính overflow hoặc underflow.
 
-# Token whale
+# Token whale [Link](https://capturetheether.com/challenges/math/token-whale/)
 
 Challenge này mô phỏng ERC20 với các chức năng chuyển token. Player khởi đầu balance sẽ là 1000 để solve được challenge này, player phải transfer để balance >=1000000.
 Sau khi đọc source code thì ta thấy một chỗ bất hợp lý.
@@ -98,7 +100,7 @@ Bài học kinh nghiệm:
 1. Sử dụng các biến toàn cục một các thông minh. Nên truyền cụ thể các giá trị qua các hàm.
 2. Vẫn là kiểm tra underflow và overflow sau khi tính toán.
 
-### Retirement fund
+### Retirement fund [Link](https://capturetheether.com/challenges/math/retirement-fund/
 
 Thử thách này mô phỏng một cam kết gửi tiền. Nếu người gửi rút tiền ra sớm thì chỉ nhật được 90% giá trị và 10% phạt mình có thể rút. Nếu người gửi rút đủ tiền, balance của contract=0 thì challenge này hoàn thành.
 
@@ -146,7 +148,7 @@ Kiến thức thu được từ challenge:
 1. Có thể force send coin tới cointract đang hoạt động bằng hàm selfdestruct().
 
 
-### Mapping
+### Mapping [Link](https://capturetheether.com/challenges/math/mapping/
 
 Đây là một bài có source code khá đơn giản, người dùng có thể lưu các giá trị theo key vào mảng và kiểm tra giá trị của các key trong mảng. Challenge sẽ hoàn thành khi mà state variable isComplete là True.
 ```

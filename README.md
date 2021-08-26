@@ -192,7 +192,7 @@ Vậy nên nếu: keccak256(1)+key > 2^256-1 sẽ bị overflow và modulo lại
 => Để địa chỉ ghi vào là 0 thì key=2^256-keccak256(1)
 Value ta truyền vào là 1 thì biến isComplete có thể chuyển thành True rồi.<br>
 
-*Chú ý: Trong một số thư viện tính keccak256 có thể khác nhau theo version. Nên ta có thể lấy giá trị bắt đầu của array thông qua transaction set(key=0,value=1) cũng được. Vị trí storage sẽ được lưu trong state của trasaction. *
+<em>Chú ý: Trong một số thư viện tính keccak256 có thể khác nhau theo version. Nên ta có thể lấy giá trị bắt đầu của array thông qua transaction set(key=0,value=1) cũng được. Vị trí storage sẽ được lưu trong state của trasaction.<em>
 
 **Bài học kinh nghiệm sau challenge:**
 1. Vị trí lưu của một array và map ta có thể điều khiển được. Và chúng có thể bị trùng với biến khác vì hàm hash có thể gặp dụng độ.

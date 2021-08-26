@@ -55,7 +55,8 @@ Contract này hỗ trợ một số hàm mua bán token tuy nhiên ở hàm mua 
 Dòng require(msg.value == numTokens * PRICE_PER_TOKEN). Có câu lệnh nhân nhưng sau đó không kiểm tra overflow.
 
 Nếu nghĩ đơn gián PRICE_PER_TOKEN giá trị là 1 ether thì đúng là không cần kiểm trả thật vì vế phải bằng numTokens, làm sao mà overflow được. Tuy nhiên với solidity 1 ether tương đương với 10^18 wei đơn vị coin nhỏ nhất. Nên ta có thể nhập (2^256-1)/10^18 n (lấy cận trên) là giá trị của numTokens để biểu thức bên phải overflow.
-Giá trị token mua: 115792089237316195423570985008687907853269984665640564039458
+
+Giá trị token mua: 115792089237316195423570985008687907853269984665640564039458.
 Khi ta chỉ cần mua với giá (numToken-(2^256-1)/10^18) = 0.41599208687036004 ether. 
 Sau khi mua dư token, ta có thể bán lại để balance contract về 0. Hàm isComplete sẽ trả về true.
 
@@ -85,7 +86,8 @@ Trong quá trình gọi hàm trong hai hàm sau đây.
         emit Transfer(msg.sender, to, value);
     }
     
-Hàm transferFrom cho phép chuyển tài khoản từ địa chỉ nguồn (from) tới đích (to). Khi chuyển qua hàm _transfer lại không truyển địa chỉ nguồn, mà sử dụng người gọi hàm (msg.sender) để trừ balance. Có thể hiểu nôm na lỗi như như sau:
+Hàm transferFrom cho phép chuyển tài khoản từ địa chỉ nguồn (from) tới đích (to). Khi chuyển qua hàm _transfer lại không truyển địa chỉ nguồn, mà sử dụng người gọi hàm (msg.sender) để trừ balance.
+Có thể hiểu nôm na lỗi như như sau:
 A là người trung gian thực thi chức năng chuyển tiền từ B đến C. Nhưng token gửi tới C lại trừ vào tài khoản của A thay vì tài khoản của B.
 
 Cộng thêm balanceOf[msg.sender] không được kiểm tra underflow nếu ta trừ vào tài khoản có balanceOf tiệm cận 0. 

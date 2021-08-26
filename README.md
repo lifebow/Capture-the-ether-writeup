@@ -150,7 +150,7 @@ Sau khi thêm balance cho contract gốc thì balance > startBalance dẫn tới
 1. Có thể force send coin tới cointract đang hoạt động bằng hàm selfdestruct().
 
 
-### Mapping [Link](https://capturetheether.com/challenges/math/mapping/
+### Mapping [Link](https://capturetheether.com/challenges/math/mapping/)
 
 Đây là một bài có source code khá đơn giản, người dùng có thể lưu các giá trị theo key vào mảng và kiểm tra giá trị của các key trong mảng. Challenge sẽ hoàn thành khi mà state variable isComplete là True.<br>
 ```
@@ -181,7 +181,7 @@ Các state variable sẽ được lưu trong các vị trí là slot, bắt đ�
 Các kiểu dữ liệu cơ bản sẽ được lưu liên tiếp nhau, cho đến khi đầy slot thì mới chuyển tiếp qua slot tiếp theo.<br>
 
 Riêng với 2 kiểu dữ liệu là array và map sẽ có một chút đặc biệt.<br>
-Chúng đều sẽ được lưu ở slot mới, slot này sẽ được array lưu chiều dài của array, còn map thì không sử dụng nó. Dữ liệu của array sẽ được lưu liên tiếp nhau  bắt đầu từ địa chỉ keccak256(slot\_number), các giá trị kéo theo sẽ được lưu ở  keccak256(slot\_number) + 1, keccak(slot\_number) + 2, ... ,  keccak256(slot\_number) + n. Còn map thì lưu data ở vị trí keccak(key+slot\_number).
+Chúng đều sẽ được lưu ở slot mới, slot này sẽ được array lưu chiều dài của array, còn map thì không sử dụng nó. Dữ liệu của array sẽ được lưu liên tiếp nhau  bắt đầu từ địa chỉ keccak256(slot\_number), các giá trị kéo theo sẽ được lưu ở  keccak256(slot\_number) + 1, keccak(slot\_number) + 2, ...,  keccak256(slot\_number) + n. Còn map thì lưu data ở vị trí keccak(key+slot\_number).
 
 Vị trí lưu cũng chính là vị trí mà ta có thể write vào.<br>
 Địa chỉ mà ta có thể ghi vào với hàm set là: keccak256(1)+key (1 là vị trí slot của biến map).<br>

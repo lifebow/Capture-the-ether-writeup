@@ -54,11 +54,11 @@ Contract này hỗ trợ một số hàm mua bán token tuy nhiên ở hàm mua 
     }
 Dòng require(msg.value == numTokens * PRICE_PER_TOKEN). Có câu lệnh nhân nhưng sau đó không kiểm tra overflow.
 
-Nếu nghĩ đơn gián PRICE_PER_TOKEN giá trị là 1 ether thì đúng là không cần kiểm trả thật vì vế phải bằng numTokens, làm sao mà overflow được. Tuy nhiên với solidity 1 ether tương đương với 10^18 wei đơn vị coin nhỏ nhất. Nên ta có thể nhập (2^256-1)/10^18 n (lấy cận trên) là giá trị của numTokens để biểu thức bên phải overflow.
+Nếu nghĩ đơn gián PRICE_PER_TOKEN giá trị là 1 ether thì đúng là không cần kiểm trả thật vì vế phải bằng numTokens, làm sao mà overflow được. Tuy nhiên với solidity 1 ether tương đương với 10^18 wei đơn vị coin nhỏ nhất. Nên ta có thể nhập (2^256-1)/10^18 n (lấy cận trên) là giá trị của numTokens để biểu thức bên phải overflow.<br>
 
-Giá trị token mua: 115792089237316195423570985008687907853269984665640564039458.
-Khi ta chỉ cần mua với giá (numToken-(2^256-1)/10^18) = 0.41599208687036004 ether. 
-Sau khi mua dư token, ta có thể bán lại để balance contract về 0. Hàm isComplete sẽ trả về true.
+Giá trị token mua: 115792089237316195423570985008687907853269984665640564039458.<br>
+Khi ta chỉ cần mua với giá (numToken-(2^256-1)/10^18) = 0.41599208687036004 ether. <br>
+Sau khi mua dư token, ta có thể bán lại để balance contract về 0. Hàm isComplete sẽ trả về true.<br>
 
 Bài học rút ra từ challenge này:
 1. Cẩn thận khi sử dụng các đơn vị chỉ số lượng coin, chúng được quy đổi về đơn vị nhỏ nhất wei khi lưu trữ và tính toán.
@@ -66,7 +66,7 @@ Bài học rút ra từ challenge này:
 
 # Token whale [Link](https://capturetheether.com/challenges/math/token-whale/)
 
-Challenge này mô phỏng ERC20 với các chức năng chuyển token. Player khởi đầu balance sẽ là 1000 để solve được challenge này, player phải transfer để balance >=1000000.
+Challenge này mô phỏng ERC20 với các chức năng chuyển token. Player khởi đầu balance sẽ là 1000 để solve được challenge này, player phải transfer để balance >=1000000.<br>
 Sau khi đọc source code thì ta thấy một chỗ bất hợp lý.
 Trong quá trình gọi hàm trong hai hàm sau đây.
 
@@ -86,9 +86,9 @@ Trong quá trình gọi hàm trong hai hàm sau đây.
         emit Transfer(msg.sender, to, value);
     }
     
-Hàm transferFrom cho phép chuyển tài khoản từ địa chỉ nguồn (from) tới đích (to). Khi chuyển qua hàm _transfer lại không truyển địa chỉ nguồn, mà sử dụng người gọi hàm (msg.sender) để trừ balance.
-Có thể hiểu nôm na lỗi như như sau:
-A là người trung gian thực thi chức năng chuyển tiền từ B đến C. Nhưng token gửi tới C lại trừ vào tài khoản của A thay vì tài khoản của B.
+Hàm transferFrom cho phép chuyển tài khoản từ địa chỉ nguồn (from) tới đích (to). Khi chuyển qua hàm _transfer lại không truyển địa chỉ nguồn, mà sử dụng người gọi hàm (msg.sender) để trừ balance.<br>
+Có thể hiểu nôm na lỗi như như sau:<br>
+A là người trung gian thực thi chức năng chuyển tiền từ B đến C. Nhưng token gửi tới C lại trừ vào tài khoản của A thay vì tài khoản của B.<br>
 
 Cộng thêm balanceOf[msg.sender] không được kiểm tra underflow nếu ta trừ vào tài khoản có balanceOf tiệm cận 0. 
 
@@ -102,11 +102,11 @@ Bài học kinh nghiệm:
 1. Sử dụng các biến toàn cục một các thông minh. Nên truyền cụ thể các giá trị qua các hàm.
 2. Vẫn là kiểm tra underflow và overflow sau khi tính toán.
 
-### Retirement fund [Link](https://capturetheether.com/challenges/math/retirement-fund/
+### Retirement fund [Link](https://capturetheether.com/challenges/math/retirement-fund/)
 
-Thử thách này mô phỏng một cam kết gửi tiền. Nếu người gửi rút tiền ra sớm thì chỉ nhật được 90% giá trị và 10% phạt mình có thể rút. Nếu người gửi rút đủ tiền, balance của contract=0 thì challenge này hoàn thành.
+Thử thách này mô phỏng một cam kết gửi tiền. Nếu người gửi rút tiền ra sớm thì chỉ nhật được 90% giá trị và 10% phạt mình có thể rút. Nếu người gửi rút đủ tiền, balance của contract=0 thì challenge này hoàn thành.<br>
 
-Sau khi xem xét source của challenge ta có thể thấy có lỗi underflow ở function collectPenalty()
+Sau khi xem xét source của challenge ta có thể thấy có lỗi underflow ở function collectPenalty()<br>
 
     function collectPenalty() public {
         require(msg.sender == beneficiary);
@@ -119,13 +119,13 @@ Sau khi xem xét source của challenge ta có thể thấy có lỗi underflow 
         // penalty is what's left
         msg.sender.transfer(address(this).balance);
     }
-Cụ thể là với biến withdrawn khi mà nó được tính từ startBalance và balance hiện tại của contract. Nếu balance > startBalalance thì require sẽ được pass và ta có thể lấy toàn bộ balance hiện tại của contract.
+Cụ thể là với biến withdrawn khi mà nó được tính từ startBalance và balance hiện tại của contract. Nếu balance > startBalalance thì require sẽ được pass và ta có thể lấy toàn bộ balance hiện tại của contract.<br>
 
-Để tăng giá trị balance contract. Mình đa thử gửi trực tiếp coin tới contract nhưng không được. Cụ thể là do Contract này chưa hiện thực hàm fallback() với keyword là payable.
+Để tăng giá trị balance contract. Mình đa thử gửi trực tiếp coin tới contract nhưng không được. Cụ thể là do Contract này chưa hiện thực hàm fallback() với keyword là payable.<br>
 
-Giải thích một chút về hàm fallback của solidity. Khi người dùng sử dùng gọi các chức năng không có trong contract thì nó sẽ gọi hàm fallback(). Mặc định khi không hiện thực hàm này thì hàm sẽ không có keyword ``payable'' nghĩa là hàm sẽ raise exception khi nhận được coin gửi tới. Với exception này, contract sẽ gửi trả lại coin theo address gửi.
+Giải thích một chút về hàm fallback của solidity. Khi người dùng sử dùng gọi các chức năng không có trong contract thì nó sẽ gọi hàm fallback(). Mặc định khi không hiện thực hàm này thì hàm sẽ không có keyword ``payable'' nghĩa là hàm sẽ raise exception khi nhận được coin gửi tới. Với exception này, contract sẽ gửi trả lại coin theo address gửi.<br>
 
-Để có thể gửi coin tới contract, mình đã tìm kiếm cách gửi với keyword: "force send ether to contract". Có hai cách đó là sử dụng một contract với hàm hủy và gửi coin với tới địa chỉ contract trước khi nó được khởi tạo [Link blog](https://medium.com/@alexsherbuck/two-ways-to-force-ether-into-a-contract-1543c1311c56). Ở đây thì mình chỉ có thể dùng cách thứ nhất. 
+Để có thể gửi coin tới contract, mình đã tìm kiếm cách gửi với keyword: "force send ether to contract". Có hai cách đó là sử dụng một contract với hàm hủy và gửi coin với tới địa chỉ contract trước khi nó được khởi tạo [Link blog](https://medium.com/@alexsherbuck/two-ways-to-force-ether-into-a-contract-1543c1311c56). Ở đây thì mình chỉ có thể dùng cách thứ nhất. <br>
 
 Code solidity của mình như sau :
 ```
@@ -140,9 +140,9 @@ contract RetirementFundAttacker {
 }
 ```
 
-Khi contract này bị hủy, balance sẽ được gửi tới victiomAddress và exception do fallback() raise ra sẽ không thể gửi coin lại được. Vì địa chỉ contract này còn contract nào hoạt động đâu :3.
+Khi contract này bị hủy, balance sẽ được gửi tới victiomAddress và exception do fallback() raise ra sẽ không thể gửi coin lại được. Vì địa chỉ contract này còn contract nào hoạt động đâu :3.<br>
 
-Sau khi thêm balance cho contract gốc thì balance > startBalance dẫn tới ta có thể collect hết được balance theo như hàm collectPenalty. Challenge đã complete.
+Sau khi thêm balance cho contract gốc thì balance > startBalance dẫn tới ta có thể collect hết được balance theo như hàm collectPenalty. Challenge đã complete.<br>
 
 Kiến thức thu được từ challenge:
 1. Hàm fallback() sẽ được gọi khi không có chức năng nào tương ứng với yêu cầu của người gọi.
@@ -152,7 +152,7 @@ Kiến thức thu được từ challenge:
 
 ### Mapping [Link](https://capturetheether.com/challenges/math/mapping/
 
-Đây là một bài có source code khá đơn giản, người dùng có thể lưu các giá trị theo key vào mảng và kiểm tra giá trị của các key trong mảng. Challenge sẽ hoàn thành khi mà state variable isComplete là True.
+Đây là một bài có source code khá đơn giản, người dùng có thể lưu các giá trị theo key vào mảng và kiểm tra giá trị của các key trong mảng. Challenge sẽ hoàn thành khi mà state variable isComplete là True.<br>
 ```
 pragma solidity ^0.4.21;
 
@@ -173,20 +173,24 @@ contract MappingChallenge {
     }
 }
 ```
-Mục tiêu của challenge này khá rõ ràng. Mình cần điều khiển giá trị key của hàm se() làm sao để có thể write vào biến isComplete.
+Mục tiêu của challenge này khá rõ ràng. Mình cần điều khiển giá trị key của hàm se() làm sao để có thể write vào biến isComplete.<br>
 
-Để kiểm soát được địa chỉ này, ta cần biết cách thức lưu trữ và ghi của các biến trong Contract. Theo mình tìm hiểu thì:
-Các state variable sẽ được lưu trong các vị trí là slot, bắt đầu từ slot_0, mỗi slot sẽ có thể chứa 256 bit. Các kiểu dữ liệu cơ bản sẽ được lưu liên tiếp nhau, cho đến khi đầy slot thì mới chuyển tiếp qua slot tiếp theo.
+Để kiểm soát được địa chỉ này, ta cần biết cách thức lưu trữ và ghi của các biến trong Contract. <br>
+Theo mình tìm hiểu thì:<br>
+Các state variable sẽ được lưu trong các vị trí là slot, bắt đầu từ slot_0, mỗi slot sẽ có thể chứa 256 bit.<br>
+Các kiểu dữ liệu cơ bản sẽ được lưu liên tiếp nhau, cho đến khi đầy slot thì mới chuyển tiếp qua slot tiếp theo.<br>
 
-Riêng với 2 kiểu dữ liệu là array và map sẽ có một chút đặc biệt. Chúng đều sẽ được lưu ở slot mới, slot này sẽ được array lưu chiều dài của array, còn map thì không sử dụng nó. Dữ liệu của array sẽ được lưu liên tiếp nhau  bắt đầu từ địa chỉ keccak256(slot\_number), các giá trị kéo theo sẽ được lưu ở  keccak256(slot\_number) + 1, keccak(slot\_number) + 2, ... ,  keccak256(slot\_number) + n. Còn map thì lưu data ở vị trí keccak(key+slot\_number).
+Riêng với 2 kiểu dữ liệu là array và map sẽ có một chút đặc biệt.<br>
+Chúng đều sẽ được lưu ở slot mới, slot này sẽ được array lưu chiều dài của array, còn map thì không sử dụng nó. Dữ liệu của array sẽ được lưu liên tiếp nhau  bắt đầu từ địa chỉ keccak256(slot\_number), các giá trị kéo theo sẽ được lưu ở  keccak256(slot\_number) + 1, keccak(slot\_number) + 2, ... ,  keccak256(slot\_number) + n. Còn map thì lưu data ở vị trí keccak(key+slot\_number).
 
-Vị trí lưu cũng chính là vị trí mà ta có thể write vào
-Địa chỉ mà ta có thể ghi vào với hàm set là: keccak256(1)+key (1 là vị trí slot của biến map).
-Việc tiếp theo của ta là điều khiển key làm sao để có thể lưu vào địa chỉ 0 là đị chỉ lưu giá trị biến isComplete.
+Vị trí lưu cũng chính là vị trí mà ta có thể write vào.<br>
+Địa chỉ mà ta có thể ghi vào với hàm set là: keccak256(1)+key (1 là vị trí slot của biến map).<br>
+Việc tiếp theo của ta là điều khiển key làm sao để có thể lưu vào địa chỉ 0 là đị chỉ lưu giá trị biến isComplete.<br>
 
-Cận trên của giá trị trong solidity là của uint256 là 2^256-1. Vậy nên nếu: keccak256(1)+key > 2^256-1 sẽ bị overflow và modulo lại theo 2^256.
+Cận trên của giá trị trong solidity là của uint256 là 2^256-1.<br>
+Vậy nên nếu: keccak256(1)+key > 2^256-1 sẽ bị overflow và modulo lại theo 2^256.<br>
 => Để địa chỉ ghi vào là 0 thì key=2^256-keccak256(1)
-Value ta truyền vào là 1 thì biến isComplete có thể chuyển thành True rồi.
+Value ta truyền vào là 1 thì biến isComplete có thể chuyển thành True rồi.<br>
 
 Chú ý: Trong một số thư viện tính keccak256 có thể khác nhau theo version. Nên ta có thể lấy giá trị bắt đầu của array thông qua transaction set(key=0,value=1) cũng được. Vị trí storage sẽ được lưu trong state của trasaction. 
 

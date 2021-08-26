@@ -39,7 +39,7 @@ Sau một hồi tìm kiếm và tham khảo từ nhiều nguồn. Mình biết �
 Biết được giá trị của answer mình chỉ cân gọi hàm guess() và truyền thông tin vào để lấy ether thôi. Kéo balance của contract về 0 mình có thể complete rồi.
 
 **Kiến thức thu được:**
-1. Tất đều là publish nếu lưu trữ trong blockchain, cho dù tầm vực là publish, private hay internal. Ta chỉ cần địa chỉ trong storage thì đều truy cập được hết.
+1. Tất đều là public nếu lưu trữ trong blockchain, cho dù tầm vực là public, private hay internal. Ta chỉ cần địa chỉ trong storage thì đều truy cập được hết.
 
 ## MATH
 ### Token Sale [Link](https://capturetheether.com/challenges/math/token-sale/)
@@ -196,7 +196,7 @@ Value ta truyền vào là 1 thì biến isComplete có thể chuyển thành Tr
 
 **Bài học kinh nghiệm sau challenge:**
 1. Vị trí lưu của một array và map ta có thể điều khiển được. Và chúng có thể bị trùng với biến khác vì hàm hash có thể gặp dụng độ.
-1. Tất cả đều publish trên blockchain. Ta có thể theo dõi sự thay đổi của contract qua các transaction.
+1. Tất cả đều public trên blockchain. Ta có thể theo dõi sự thay đổi của contract qua các transaction.
 
 
 

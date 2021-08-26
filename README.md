@@ -38,7 +38,7 @@ Sau một hồi tìm kiếm và tham khảo từ nhiều nguồn. Mình biết �
 
 Biết được giá trị của answer mình chỉ cân gọi hàm guess() và truyền thông tin vào để lấy ether thôi. Kéo balance của contract về 0 mình có thể complete rồi.
 
-**Kiến thức thu được:
+**Kiến thức thu được:**
 1. Tất đều là publish nếu lưu trữ trong blockchain, cho dù tầm vực là publish, private hay internal. Ta chỉ cần địa chỉ trong storage thì đều truy cập được hết.
 
 ## MATH
@@ -60,7 +60,7 @@ Giá trị token mua: 1157920892373161954235709850086879078532699846656405640394
 Khi ta chỉ cần mua với giá (numToken-(2^256-1)/10^18) = 0.41599208687036004 ether. <br>
 Sau khi mua dư token, ta có thể bán lại để balance contract về 0. Hàm isComplete sẽ trả về true.<br>
 
-**Bài học rút ra từ challenge này:
+**Bài học rút ra từ challenge này:**
 1. Cẩn thận khi sử dụng các đơn vị chỉ số lượng coin, chúng được quy đổi về đơn vị nhỏ nhất wei khi lưu trữ và tính toán.
 1. Cộng, trừ, nhân chia đều cần kiểm tra lại vì có thể dính overflow hoặc underflow.
 
@@ -98,7 +98,7 @@ Kịch bản thực thi ở đây sẽ là:
 1. Dùng tài khoản 2 chuyển token từ tài khoản 1 đến tài khoản một với value > 1 (Lúc này tài khoản 2 sẽ bị trừ với value tương ứng dẫn tới underflow).
 1. Chuyển token từ tài khoản 2 tới tài khoản 1 đủ đề qua challenge.
 
-**Bài học kinh nghiệm:
+**Bài học kinh nghiệm:**
 1. Sử dụng các biến toàn cục một các thông minh. Nên truyền cụ thể các giá trị qua các hàm.
 2. Vẫn là kiểm tra underflow và overflow sau khi tính toán.
 
@@ -144,7 +144,7 @@ Khi contract này bị hủy, balance sẽ được gửi tới victiomAddress v
 
 Sau khi thêm balance cho contract gốc thì balance > startBalance dẫn tới ta có thể collect hết được balance theo như hàm collectPenalty. Challenge đã complete.<br>
 
-**Kiến thức thu được từ challenge:
+**Kiến thức thu được từ challenge:**
 1. Hàm fallback() sẽ được gọi khi không có chức năng nào tương ứng với yêu cầu của người gọi.
 1. Không có keyword payable function sẽ raise excection khi người gọi truyền coin vào
 1. Có thể force send coin tới cointract đang hoạt động bằng hàm selfdestruct().
@@ -192,9 +192,9 @@ Vậy nên nếu: keccak256(1)+key > 2^256-1 sẽ bị overflow và modulo lại
 => Để địa chỉ ghi vào là 0 thì key=2^256-keccak256(1)
 Value ta truyền vào là 1 thì biến isComplete có thể chuyển thành True rồi.<br>
 
-***Chú ý: Trong một số thư viện tính keccak256 có thể khác nhau theo version. Nên ta có thể lấy giá trị bắt đầu của array thông qua transaction set(key=0,value=1) cũng được. Vị trí storage sẽ được lưu trong state của trasaction. 
+***Chú ý: Trong một số thư viện tính keccak256 có thể khác nhau theo version. Nên ta có thể lấy giá trị bắt đầu của array thông qua transaction set(key=0,value=1) cũng được. Vị trí storage sẽ được lưu trong state của trasaction. ***
 
-**Bài học kinh nghiệm sau challenge:
+**Bài học kinh nghiệm sau challenge:**
 1. Vị trí lưu của một array và map ta có thể điều khiển được. Và chúng có thể bị trùng với biến khác vì hàm hash có thể gặp dụng độ.
 1. Tất cả đều publish trên blockchain. Ta có thể theo dõi sự thay đổi của contract qua các transaction.
 

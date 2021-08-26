@@ -64,7 +64,7 @@ Sau khi mua dư token, ta có thể bán lại để balance contract về 0. H�
 1. Cẩn thận khi sử dụng các đơn vị chỉ số lượng coin, chúng được quy đổi về đơn vị nhỏ nhất wei khi lưu trữ và tính toán.
 1. Cộng, trừ, nhân chia đều cần kiểm tra lại vì có thể dính overflow hoặc underflow.
 
-# Token whale [Link](https://capturetheether.com/challenges/math/token-whale/)
+### Token whale [Link](https://capturetheether.com/challenges/math/token-whale/)
 
 Challenge này mô phỏng ERC20 với các chức năng chuyển token. Player khởi đầu balance sẽ là 1000 để solve được challenge này, player phải transfer để balance >=1000000.<br>
 Sau khi đọc source code thì ta thấy một chỗ bất hợp lý.

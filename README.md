@@ -215,9 +215,9 @@ Challenge này mô phỏng một kênh nhận tiền hỗ trợ, người tham g
         Mình cũng lấy địa chỉ wallet của mình scale theo giá chị ``hào phóng'' này và truyền vào.
         Kết quả là mình đã ghi đè được owner thành giá trị của mình và rút được balance. Challenge hoàn thành.
   
-Để hiểu rõ hơn về vị trí storage của method push() mình có đi đọc document và biết được. push() sẽ thêm element mới ngay sau element cuối cùng của array, nếu array chưa được khởi tạo thì nó trả về tham khảo đến ngay địa chỉ của array. Và cụ thể ở trường hợp bài này là nó ghi đè thẳng lên slot_0 và slot_1 là địa chỉ khởi đầu và nối tiếp của array donations (chưa được khởi tạo)
+Để hiểu rõ hơn về vị trí storage của method push() mình có đi đọc document và biết được. push() sẽ thêm element mới ngay sau element cuối cùng của array, nếu element chưa được khởi tạo thì nó trả về tham khảo đến ngay địa chỉ của đối tượng đó. Và cụ thể ở trường hợp bài này là địa chỉ của struct donation vì variable donation chưa được khởi taọ nên nó ghi đè thẳng lên slot_0 và slot_1.
         
  **Bài học kinh nghiệm sau challenge**
         
-1. Cẩn thận khi dùng method push() của array.
+1. Cẩn thận khi dùng method push() của array với những biến chưa khởi tạo.
 1. Đơn vị nhỏ nhất về coin vẫn là wei, các đơn vị lớn hơn vẫn được quy đổi ra thành wei để lưu trữ và tính toán.

@@ -199,5 +199,25 @@ Value ta truyền vào là 1 thì biến isComplete có thể chuyển thành Tr
 1. Tất cả đều public trên blockchain. Ta có thể theo dõi sự thay đổi của contract qua các transaction.
 
 
-
-
+### Donation [Link](https://capturetheether.com/challenges/math/donation/)
+Challenge này mô phỏng một kênh nhận tiền hỗ trợ, người tham gia có thể donate coin cho chủ contract và chỉ có chủ contract mới có quyền  rút được coin ra.
+        
+Ở challenge này yêu cầu hoàn thành vẫn là làm cho balance của contract trở về 0, trong khi chỉ có một lệnh duy nhất rút tiền yêu cầu quyền của owner. Vậy nên target chính của người chơi là chiếm được quyền của owner. Challenge này người chơi có quyền duy nhất là donate, các thông tin sẽ được lưu vào một mảng động thông qua phương thức push.<br>
+        Vậy chắc chắn hướng đi vẫn là sử dụng data truyền vào và ghi đè giá trị owner thành địa chỉ wallet của mình rồi. Vị trí bắt đầu của data array theo challenge ở trên là vị trí keccak256(slot_0) thì sao mà ta có thể điều khiển ghi đè tới slot_3 là vị trí owner được, vì theo lẽ thường push chỉ ghi lên địa chỉ tiếp nối phía sau thôi mà, sao mà mình donate đủ số lần để overflow như bài trên được. <br>
+        
+        Sau khi donate thử một lần và kiểm tra địa chỉ được ghi đề giá trị, mình phát hiện ra method push() của array đã ghi đè giá trị bắt đầu từ vị trí slot_0 (vị trí bình thường lưu array_length) và slot_1(address giữ giá trị của owner). Vậy là hình như xong rồi. Mình khởi động lại challenge và donate lại  với giá trị là địa chỉ wallet của mình thôi. Chỗ tính value của donation có chút ``hào phóng'' vì tác giả lại đặt đơn vị là ether một các cố tình.
+        ```
+          // amount is in ether, but msg.value is in wei
+        uint256 scale = 10**18 * 1 ether;
+        require(msg.value == etherAmount / scale);
+        ```
+Ở đây comment ghi là msg.value là wei, amount truyền vào là ether. Ngụ ý ở đây là kiểm tra xem value truyền vào có đúng số ether truyền vào không thông qua scale với wei. Giá trị scale chỉ cần là 10**18 * 1wei là được rồi. Vì 1ether nó sẵn là 10\*\*18 wei rồi. Nhân lên thêm scale thì chả khác nào giảm đi chơi người donate 10\*\*18 lần.
+        Mình cũng lấy địa chỉ wallet của mình scale theo giá chị ``hào phóng'' này và truyền vào.
+        Kết quả là mình đã ghi đè được owner thành giá trị của mình và rút được balance. Challenge hoàn thành.
+  
+Để hiểu rõ hơn về vị trí storage của method push() mình có đi đọc document và biết được. push() sẽ thêm element mới ngay sau element cuối cùng của array, nếu array chưa được khởi tạo thì nó trả về tham khảo đến ngay địa chỉ của array. Và cụ thể ở trường hợp bài này là nó ghi đè thẳng lên slot_0 và slot_1 là địa chỉ khởi đầu và nối tiếp của array donations (chưa được khởi tạo)
+        
+ **Bài học kinh nghiệm sau challenge**
+        
+1. Cẩn thận khi dùng method push() của array.
+1. Đơn vị nhỏ nhất về coin vẫn là wei, các đơn vị lớn hơn vẫn được quy đổi ra thành wei để lưu trữ và tính toán.
